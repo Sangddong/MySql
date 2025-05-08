@@ -7,9 +7,9 @@
 #### (2) **Advatages** of using ENUM
 - Compact data storage: Every specified string value is automatically encoded into a numeric value, allowing for compact storage
 > Ex) 
-    CREATE TABLE color (
-        gender ENUM('red', 'blue', 'yellow')
-    );
+>    CREATE TABLE color (
+>        gender ENUM('red', 'blue', 'yellow')
+>    );
 > 👉🏻 internally, data will be stored as 
 > : red = 0, blue = 1, yellow = 2
 
