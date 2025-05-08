@@ -94,19 +94,22 @@
     >```
 - select data   
     > ```mysql
-    > -- (1) and (2) return same result
+    > -- (1), (2) and (3) return same result
     > -- (1)
     > SELECT *
     > FROM words
     > WHERE FIND_IN_SET('a', alphabet) > 0
-    > OR FIND_IN_SET('b', alphabet) > 0
-    > OR FIND_IN_SET('d', alphabet) > 0;
+    >     OR FIND_IN_SET('b', alphabet) > 0
+    >     OR FIND_IN_SET('d', alphabet) > 0;
     > -- (2)
     > SELECT *
     > FROM words
-    > WHERE alphabet LIKE '%a%' OR alphabet LIKE '%b%' OR alphabet LIKE '%d%';
+    > WHERE alphabet LIKE '%a%'
+    >     OR alphabet LIKE '%b%'
+    >     OR alphabet LIKE '%d%';
     > -- (3)
     > SELECT *
     > FROM words
-    > WHERE FIND_IN_SET(11, alphabet); -- 11 = 1 + 2 + 8 -> returns rows that include 'a' or 'b' or 'd'
+    > WHERE FIND_IN_SET(11, alphabet);
+    > -- 11 = 1 + 2 + 8 -> returns rows that include 'a' or 'b' or 'd'
     > ```
