@@ -51,7 +51,11 @@ WHERE department_id IN (SELECT department_id
 >  WHERE location = "Seoul")
 > ```
 ### 3. Multi-column Subquery
-
+- A subquery that **returns more than one column**.
+- The main query compares multiple columns with the data returned by the subquery at the same time.
+- **The number of columns in the comparison must exactly match** the number of columns returned by the subquery.
+- Can often be replaced with a `JOIN` or `EXISTS` approach.
+  
 ### 4. Correlated Subquery
 
 ### 5. Inline View or Derived Table
