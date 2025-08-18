@@ -90,3 +90,15 @@ WHERE department_id IN (
 > );
 > ```
 ### 5. Inline View or Derived Table
+- A subquery **used in the FROM clause**, **treated as a table**.
+- This type of subquery is also called an `inline view` or a `derived table`.
+- It must have an alias.
+> ``` mysql
+> SELECT *
+> FROM (
+>     SELECT customer_id, SUM(amount) AS total_amount
+>     FROM orders
+>     GROUP BY customer_id
+> ) t
+> WHERE total_amount >= 1000000;
+> ```
