@@ -55,7 +55,25 @@ WHERE department_id IN (SELECT department_id
 - The main query compares multiple columns with the data returned by the subquery at the same time.
 - **The number of columns in the comparison must exactly match** the number of columns returned by the subquery.
 - Can often be replaced with a `JOIN` or `EXISTS` approach.
-  
+> ``` mysql
+> -- EXISTS
+> SELECT *
+> FROM employees e
+> WHERE EXISTS (
+>    SELECT 1
+>    FROM departments d
+>    WHERE e.dept_id = d.dept_id
+>      AND e.job_id = d.manager_job_id
+> );
+> 
+> -- Multi-column Subquery
+> SELECT *
+> FROM employees
+> WHERE (dept_id, job_id) IN (
+>    SELECT dept_id, manager_job_id
+>    FROM departments
+> );
+>```
 ### 4. Correlated Subquery
 
 ### 5. Inline View or Derived Table
