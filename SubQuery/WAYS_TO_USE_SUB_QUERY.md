@@ -1,4 +1,4 @@
-## WITH
+## SUB_QUERY
 
 ### 0. What is sub query?
 - A sub query is a query **nested inside another query**.
