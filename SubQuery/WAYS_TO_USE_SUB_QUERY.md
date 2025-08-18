@@ -33,9 +33,11 @@ WHERE salary > (SELECT AVG(salary) AS average
 ``` mysql
 SELECT *
 FROM employee_table
-WHERE department_id IN (SELECT department_id
-                        FROM department
-                        WHERE location = "Seoul")
+WHERE department_id IN (
+      SELECT department_id
+      FROM department
+      WHERE location = "Seoul"
+)
 ```
 - Main query of statement below is
 
@@ -60,20 +62,31 @@ WHERE department_id IN (SELECT department_id
 > SELECT *
 > FROM employees e
 > WHERE EXISTS (
->    SELECT 1
->    FROM departments d
->    WHERE e.dept_id = d.dept_id
->      AND e.job_id = d.manager_job_id
+>     SELECT 1
+>     FROM departments d
+>     WHERE e.dept_id = d.dept_id
+>           AND e.job_id = d.manager_job_id
 > );
 > 
 > -- Multi-column Subquery
 > SELECT *
 > FROM employees
 > WHERE (dept_id, job_id) IN (
->    SELECT dept_id, manager_job_id
->    FROM departments
+>     SELECT dept_id, manager_job_id
+>     FROM departments
 > );
 >```
 ### 4. Correlated Subquery
-
+- A subquery that **references values from the main query**.
+- The subquery is executed once for each row of the main query -> may cause performance issues.
+- Can often be replaced with a `JOIN` or a window function.
+> ``` mysql
+> SELECT emp_id, name, salary, dept_id
+> FROM employees e
+> WHERE salary = (
+>     SELECT MAX(salary)
+>     FROM employees
+>     WHERE dept_id = e.dept_id
+> );
+> ```
 ### 5. Inline View or Derived Table
