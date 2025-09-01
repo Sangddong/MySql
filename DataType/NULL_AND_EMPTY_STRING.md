@@ -1,32 +1,32 @@
 ## NULL AND EMPTY STRING
-### 1. NULL in MySql
-- means no value (undefied, unknown)
-- result is also NULL when NULL used at calculation
-- can't compared by `=`
-- must use `is null`, `is not null` at comparison
+### 1. `NULL` in MySql
+- Means no value (`undefined`, `unknown`)
+- Any calculation with `NULL` results in `NULL`
+- Cannot be compared using `=`
+- Must use `IS NULL` or `IS NOT NULL` for comparison
 
-### 2. '' in Mysql
-- string that has length = 0
-- it has value not content
-- can only be used string type
+### 2. `''` in Mysql
+- A string with length = 0
+- Has a value, but no content
+- Can only be used with string types
 
-### 3. NULL and '' in MySql
-- treats them as completely different values
+### 3. `NULL` and `''` in MySql
+- Treated as completely different values
 
-### 4. NULL in Oracle
-- means no value (undefied, unknown)
-- result is also NULL when NULL used at calculation
-- can't compared by `=`
-- must use `is null`, `is not null` at comparison
+### 4. `NULL` in Oracle
+- Means no value (`undefined`, `unknown`)
+- Any calculation with `NULL` results in `NULL`
+- Cannot be compared using `=`
+- Must use `IS NULL` or `IS NOT NULL` for comparison
 
-### 5. '' in Oracle
-- treats as NULL
+### 5. `''` in Oracle
+- Treated as `NULL`
 
 ### 6. NULL and '' in Oracle
-- '' == NULL 성립
+- `''` is considered equal to `NULL`
 
 ||MySql|Oracle|
 |--|--|--|
-|`NULL`|값 없음|값 없음|
-|`''`|값 있음|값 없음|
-|`비교`|NULL != ''|NULL == ''|
+|`NULL`|no value|no value|
+|`''`|Value exists (empty string)|Treated as `NULL`|
+|`비교`|`NULL != ''`|`NULL == ''`|
