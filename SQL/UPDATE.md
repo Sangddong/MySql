@@ -1,4 +1,11 @@
-디폴트와 업데이트
-col1 : not null이면서 기본값이 있을 때
--> UPDATE 문에 호출되지 않은 경우 : 기본값으로 입력됨
--> UPDATE 로 null을 넣는 경우 : 기본값으로 입력되지 않고, 오류 발생
+### Default & Update behavior in SQL
+
+- **Column condition**: `NOT NULL` + has a `DEFAULT` value  
+
+1. **When column is not included in `UPDATE` statement**  
+   - The column is set to its **default value**.  
+
+2. **When `NULL` is explicitly updated**  
+   - Since the column is `NOT NULL`,  
+   - It does **not fall back to the default value**,  
+   - Instead, an **error occurs**.  
