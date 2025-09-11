@@ -33,8 +33,7 @@ WHERE JSON_VALID(data)
 ->
 |JSON_VALID(data)|
 |-|
-|
-``` json
+|``` json
 {
   "age": 27,
   "name": "sanghee",
@@ -57,8 +56,7 @@ WHERE JSON_VALID(data)
     }
   ]
 }
-```
-|
+```|
 |1|
 
 ### 3. JSON_OBJECT(key, val, key, val, ...)
