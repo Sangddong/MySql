@@ -32,31 +32,19 @@ WHERE JSON_VALID(data)
 ```
 ->
 |JSON_VALID(data)|
-|-|
-|``` json
+|-------------------------|
+| ```json
 {
   "age": 27,
   "name": "sanghee",
   "salaryList": [
-    {
-      "month": "JAN",
-      "salary": 1000
-    },
-    {
-      "month": "FEB",
-      "salary": 2000
-    },
-    {
-      "month": "MAR",
-      "salary": 3000
-    },
-    {
-      "month": "APR",
-      "salary": 4000
-    }
+    { "month": "JAN", "salary": 1000 },
+    { "month": "FEB", "salary": 2000 },
+    { "month": "MAR", "salary": 3000 },
+    { "month": "APR", "salary": 4000 }
   ]
 }
-```|
+``` |
 |1|
 
 ### 3. JSON_OBJECT(key, val, key, val, ...)
