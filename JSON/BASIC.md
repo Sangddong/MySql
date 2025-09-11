@@ -1,20 +1,61 @@
 # JSON_BASIC
----
+example data
 ``` sql
 SELECT * FROM json
 ```
 -> 
 |data|
-|--|
+|-|
 |{"name":"sanghee","age":27,"salaryList":[{"month":"JAN","salary":1000},{"month":"FEB","salary":2000},{"month":"MAR","salary":3000},{"month":"APR","salary":4000}]}|
 |sanghee park|
 |1|
 
 ### 1. JSON_VALID()
 - Returns wheteher the value is type of JSON
+``` sql
+SELECT JSON_VALID(data)
+FROM json;
+```
+->
+|JSON_VALID(data)|
+|-|
+|1|
+|0|
+|1|
 
 ### 2. JSON_PRETTY()
 - Returns organized form of JSON
+``` sql
+SELECT JSON_PRETTY(data)
+FROM json
+WHERE JSON_VALID(data)
+```
+->
+|JSON_VALID(data)|
+|-|
+|{
+  "age": 27,
+  "name": "sanghee",
+  "salaryList": [
+    {
+      "month": "JAN",
+      "salary": 1000
+    },
+    {
+      "month": "FEB",
+      "salary": 2000
+    },
+    {
+      "month": "MAR",
+      "salary": 3000
+    },
+    {
+      "month": "APR",
+      "salary": 4000
+    }
+  ]
+}|
+|1|
 
 ### 3. JSON_OBJECT(key, val, key, val, ...)
 - Makes JSON data
