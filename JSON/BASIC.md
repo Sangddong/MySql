@@ -1,4 +1,15 @@
 # JSON_BASIC
+---
+``` sql
+SELECT * FROM json
+```
+-> 
+|data|
+|--|
+|{"name":"sanghee","age":27,"salaryList":[{"month":"JAN","salary":1000},{"month":"FEB","salary":2000},{"month":"MAR","salary":3000},{"month":"APR","salary":4000}]}|
+|sanghee park|
+|1|
+
 ### 1. JSON_VALID()
 - Returns wheteher the value is type of JSON
 
