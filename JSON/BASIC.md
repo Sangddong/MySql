@@ -52,6 +52,14 @@ WHERE JSON_VALID(data)
 
 ### 4. JSON_VALUE(col, '$.target_key_1[index].target_key_2')
 - Returns specific data from the data type of JSON
+``` sql
+SELECT JSON_VALUE(data, '$.salaryList[0].salary') AS first_month
+FROM json;
+```
+->
+|first_month|
+|--|
+|1000|
 
 ### 5. JSON_SEARCH(col, one_or_all, target_value)
 - Searches target_value's path of the data type of JSON
