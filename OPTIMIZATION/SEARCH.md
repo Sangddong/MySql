@@ -1,5 +1,5 @@
 # 대용량 테이블에서 효율적으로 검색하는 방법
-``` sql
+```sql
 CREATE TABLE error_log_table (
   error_seq INT PRIMARY KEY AUTO_INCREMENT,
   api VARCHAR(100) NOT NULL,
@@ -23,7 +23,8 @@ SELECT *
 FROM error_log_table
 WHERE error_seq >= 10000
       AND error_seq < 20000
-      AND reg_date >= '2025-09-01' AND reg_date < '2025-10-01';
+      AND reg_date >= '2025-09-01'
+      AND reg_date < '2025-10-01';
 ```
 ---
 ### 2. `OFFSET`보다 `SEEK`방식
@@ -81,7 +82,7 @@ WHERE reg_date BETWEEN '2025-09-01' AND '2025-09-30'; --9월 30일 누락
 -- ✅ DO
 SELECT *
 FROM error_log_table
-WHERE error_seq error_seq > 1000
+WHERE error_seq > 1000
       AND reg_date >= '2025-09-01'
       AND reg_date < '2025-10-01'
 ORDER BY error_seq ASC
@@ -90,13 +91,13 @@ LIMIT 1000;
 ---
 ### 4. `SELECT` 절 활용
 - `SELECT *` : 모든 컬럼을 가져옴
-  - 컬럼 중 TEXT 타입이 있는 경우, 행마다 디스크에서 별도 페이지 읽기 발생
-- 비교적 가벼운 컬럼을 추출 후 범위를 줄여 단계적 접근이 필요
+  - 컬럼 중 TEXT 타입이 있는 경우, **행마다 디스크에서 별도 페이지 읽기 발생**
+- 비교적 가벼운 컬럼을 추출 후 범위를 줄여 **단계적 접근**이 필요
 ``` sql
 -- ✅ DO
 SELECT error_seq, reg_date
 FROM error_log_table
-WHERE error_seq error_seq > 1000
+WHERE error_seq > 1000
       AND reg_date >= '2025-09-01'
       AND reg_date < '2025-10-01'
 ORDER BY error_seq ASC
