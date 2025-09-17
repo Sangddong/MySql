@@ -103,3 +103,8 @@ WHERE error_seq > 1000
 ORDER BY error_seq ASC
 LIMIT 1000;
 ```
+---
+# 5. 항상 EXPLAIN으로 실행 계획 확인
+- `EXPLAIN`으로 type, key, rows 등을 보고 인덱스 사용 여부 판단
+- type = ALL : 풀스캔 -> ❌
+- range/ref/const : 인덱스 사용 신호 -> ✅ 
