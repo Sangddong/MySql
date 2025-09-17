@@ -9,8 +9,8 @@ CREATE TABLE error_log_table (
 ```
 ---
 ### 1. `WHERE`절 
-- `WHERE`절은 **입력된 순서대로 필터링**이 걸리게 되므로
-- **인덱스와 관련이 깊은 컬럼을 선순위**로 두어 **풀스캔 방지**
+- `WHERE`절은 옵티마이저가 조건을 재배치 후 실행 계획 결정
+- **인덱스 컬럼을 포함**시켜 **풀스캔 방지**
 Example)
 ``` sql
 -- ❌ DON'T
@@ -21,14 +21,16 @@ WHERE payload like '%example%';
 -- ✅ DO
 SELECT *
 FROM error_log_table
-WHERE error_seq BETWEEN 10000 AND 20000
+WHERE error_seq >= 10000
+      AND error_seq < 20000
       AND reg_date >= '2025-09-01' AND reg_date < '2025-10-01';
 ```
 ---
 ### 2. `OFFSET`보다 `SEEK`방식
-- `OFFSET N LIMIT M` : DB가 앞의 N개 행을 건너뛰기 위해 스캔 -> 비용이 O(N + M) -> **매우 느림**
-- `SEEK`방식은 키셋 페이징 방식으로,
-- 마지막으로 본 행의 정렬 키 값을 기준으로 다음 페이지를 가져오는 방식
+- `OFFSET N LIMIT M` : DB가 앞의 N개 행을 건너뛰기 위해 스캔 -> 비용 = O(N + M) -> **매우 느림**
+- `SEEK` 방식 : 키셋 페이징 방식
+  - 마지막으로 본 행의 정렬 키 값을 기준으로 다음 페이지를 가져오는 방식
+  - **일관된 응답 속도** 제공, **효율적**
 Example)
 ``` sql
 -- ❌ DON'T
@@ -51,10 +53,12 @@ ORDER BY error_seq ASC
 LIMIT 1000;
 ```
 ---
-### 3. 날짜 필터링은 반드시 범위조건
-- `reg_date = '2025-09-01'`
+### 3. 날짜 필터링 -> range-scan
+- 일치 검색 금지 : `reg_date = '2025-09-01'`
   - 하나의 값에만 매칭되어 비효율적
   - 실제 값은 '2025-09-01 00:00:00' 하나만 검색
+- 함수 사용 금지 : `DATE(reg_date) = '2025-09-01'`
+  - 함수 적용 없이 원본 컬럼 그대로 사용해야 인덱스 활용 가능
 - `reg_date BETWEEN '2025-09-01' AND '2025-09-30'`
   - '2025-09-30 00:00:00'까지만 검색하여, 하루 데이터가 모두 제외됨
 - `reg_date >= '2025-09-01' AND reg_date < '2025-10-01'`
@@ -67,7 +71,7 @@ Example) 9월 전체 데이터 검색
 -- ❌ DON'T
 SELECT *
 FROM error_log_table
-WHERE reg_date = '2025-09-01'
+WHERE DATE(reg_date) = '2025-09-01'
 
 -- ❌ DON'T
 SELECT *
@@ -80,5 +84,21 @@ FROM error_log_table
 WHERE error_seq error_seq > 1000
       AND reg_date >= '2025-09-01'
       AND reg_date < '2025-10-01'
+ORDER BY error_seq ASC
+LIMIT 1000;
+```
+---
+### 4. `SELECT` 절 활용
+- `SELECT *` : 모든 컬럼을 가져옴
+  - 컬럼 중 TEXT 타입이 있는 경우, 행마다 디스크에서 별도 페이지 읽기 발생
+- 비교적 가벼운 컬럼을 추출 후 범위를 줄여 단계적 접근이 필요
+``` sql
+-- ✅ DO
+SELECT error_seq, reg_date
+FROM error_log_table
+WHERE error_seq error_seq > 1000
+      AND reg_date >= '2025-09-01'
+      AND reg_date < '2025-10-01'
+ORDER BY error_seq ASC
 LIMIT 1000;
 ```
